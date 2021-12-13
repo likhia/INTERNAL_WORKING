@@ -1,10 +1,10 @@
 apiVersion: 1.0.0
 metadata:
-  name: INTERNAL_SERVICE_INIT1s5e9
-projects:
-  - name: INTERNAL_SERVICE_INIT
+  name: INTERNAL_WORKING
+  projects:
+  - name: INTERNAL_WORKING
     source:
-      location: 'https://github.com/likhia/INTERNAL_SERVICE_INIT.git'
+      location: 'https://github.com/likhia/INTERNAL_WORKING.git'
       type: github
 components:
   - id: redhat/java8/latest
@@ -30,19 +30,19 @@ components:
 commands:
   - name: 1. Build
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_SERVICE_INIT'
+      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_WORKING'
         type: exec
         command: MAVEN_OPTS="-Xmx200m" && mvn -DskipTests clean install
         component: maven
   - name: 2. Run
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_SERVICE_INIT'
+      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_WORKING'
         type: exec
         command: 'MAVEN_OPTS="-Xmx200m" && mvn -Duser.home=${HOME} spring-boot:run'
         component: maven
   - name: 3. Run in debug mode
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_SERVICE_INIT'
+      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_WORKING'
         type: exec
         command: |-
           mvn  -Duser.home=${HOME} spring-boot:run -Dspring-boot.run.jvmArguments="-Xdebug
@@ -50,13 +50,13 @@ commands:
         component: maven
   - name: 4. Run tests
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_SERVICE_INIT'
+      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_WORKING'
         type: exec
         command: 'MAVEN_OPTS="-Xmx200m" && mvn -Duser.home=${HOME} verify'
         component: maven
   - name: 5. Log into deployment cluster
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_SERVICE_INIT'
+      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_WORKING'
         type: exec
         command: |
           echo
@@ -66,7 +66,7 @@ commands:
         component: maven
   - name: 6. Deploy to OpenShift
     actions:
-      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_SERVICE_INIT'
+      - workdir: '${CHE_PROJECTS_ROOT}/INTERNAL_WORKING'
         type: exec
         command: 'mvn oc:resource oc:build oc:deploy -Djkube.build.switchToDeployment=true'
         component: maven
